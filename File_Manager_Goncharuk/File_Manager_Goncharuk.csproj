@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeFile.cs" />
+    <Compile Include="FileSystem.cs" />
+    <Compile Include="ListNewItems.cs" />
+    <Compile Include="ListView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
