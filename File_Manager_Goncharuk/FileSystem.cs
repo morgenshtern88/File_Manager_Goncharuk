@@ -356,26 +356,34 @@ namespace ConsoleApp5
 
         private static void View_Rename(object sender, EventArgs e)
         {
-            var view = (ListView)sender;
-            var info = view.SelectedItem.state;
-            file.Clean();
-            Console.CursorTop = Console.WindowHeight - 5;
-            Console.CursorLeft = 0;
-            Console.CursorVisible = true;
-            Console.WriteLine("Input new name of folder");
-            string folderName = Console.ReadLine();
-            if (info is FileInfo files)
+            try
             {
-                string newFileFullPath = Path.Combine(files.DirectoryName, folderName);
-                File.Move(files.FullName, newFileFullPath);
-            }
+                var view = (ListView)sender;
+                var info = view.SelectedItem.state;
+                file.Clean();
+                Console.CursorTop = Console.WindowHeight - 5;
+                Console.CursorLeft = 0;
+                Console.CursorVisible = true;
+                Console.WriteLine("Input new name of folder");
+                string folderName = Console.ReadLine();
+                if (info is FileInfo files)
+                {
+                    string newFileFullPath = Path.Combine(files.DirectoryName, folderName);
+                    File.Move(files.FullName, newFileFullPath);
+                }
 
-            else if (info is DirectoryInfo dir)
+                else if (info is DirectoryInfo dir)
+                {
+                    string newDirFullPath = Path.Combine(dir.Parent.FullName, folderName);
+                    Directory.Move(dir.FullName, newDirFullPath);
+                    view.Clean();
+                    view.Items = GetItems(dir.Parent.FullName);
+                }
+
+            }
+            catch (Exception)
             {
-                string newDirFullPath = Path.Combine(dir.Parent.FullName, folderName);
-                Directory.Move(dir.FullName, newDirFullPath);
-                view.Clean();
-                view.Items = GetItems(dir.Parent.FullName);
+                file.Message("The file same name", "already excist");
             }
         }
 
